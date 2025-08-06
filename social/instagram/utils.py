@@ -152,7 +152,7 @@ def publish_instagram_post(
         payload = {
             "image_url": image_url,
             "is_carousel_item": True,
-            "access_token": get_fresh_token(),
+            "access_token": meta_api_key,
         }
         response = requests.post(upload_url, data=payload)
         result = response.json()
