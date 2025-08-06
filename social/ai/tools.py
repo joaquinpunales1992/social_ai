@@ -24,7 +24,9 @@ def reel_on_facebook_tool():
 
 
 def search_image_tool(query: str, num_results: int = 5):
-    import pdb;pdb.set_trace()
+    import pdb
+
+    pdb.set_trace()
     api_key = os.getenv("GOOGLE_API_KEY")
     cx = os.getenv("GOOGLE_CSE_ID")
 
@@ -179,9 +181,7 @@ tools = [
             "description": "Obtain the available properties to post. Use this when you need to get which properties are available for posting",
             "parameters": {
                 "type": "object",
-                "properties": {
-                    
-                },
+                "properties": {},
                 "required": [],
             },
         },

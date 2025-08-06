@@ -27,11 +27,25 @@ class AIAnalyst:
 
     def get_available_properties(self):
         return [
-            {"id": 1, "title": "Beatiful House in Tokyo", "price": 12000, "bedrooms": 3},
-            {"id": 2, "title": "Beatiful House in Kyoto", "price": 24000, "bedrooms": 5},
-            {"id": 3, "title": "Beatiful House in Osaka", "price": 19000, "bedrooms": 5},
+            {
+                "id": 1,
+                "title": "Beatiful House in Tokyo",
+                "price": 12000,
+                "bedrooms": 3,
+            },
+            {
+                "id": 2,
+                "title": "Beatiful House in Kyoto",
+                "price": 24000,
+                "bedrooms": 5,
+            },
+            {
+                "id": 3,
+                "title": "Beatiful House in Osaka",
+                "price": 19000,
+                "bedrooms": 5,
+            },
         ]
-    
 
     def already_posted(self):
         return [
@@ -118,7 +132,7 @@ class AIAnalyst:
         prompt_user = "Decide which post you'll be posting. Return the property selected in item_id, Create the caption, the top video text and the label text to use in the video reel. \n\n"
         f"You have this properties available: {self.get_available_properties} \n\n"
         f"You have already posted: {self.already_posted}"
-        
+
         response = self.cerebras_ai_client.generate_content_for_facebook_reel(
             prompt_system=prompt_system,
             prompt_user=prompt_user,

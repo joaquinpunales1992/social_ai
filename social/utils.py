@@ -100,11 +100,15 @@ def create_video(
     audio_path: str,
     video_text: str = None,
     duration_per_image: int = 3,
+    internet_images: bool = False,
 ):
     clips = []
 
     for image_url in images_urls:
-        img_url = prepare_image_url_for_facebook(image_url)
+        if internet_images:
+            img_url = image_url
+        else:
+            img_url = prepare_image_url_for_facebook(image_url)
         logger.info(f"Preparing image URL: {img_url}")
         try:
             local_path = download_image_to_tempfile(img_url)

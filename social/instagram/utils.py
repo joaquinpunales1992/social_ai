@@ -11,6 +11,7 @@ from social.utils import (
     get_random_mp3_full_path,
     create_video,
 )
+
 # from social.models import SocialComment, SocialPost
 from social.config.settings import settings
 from social.instagram.constants import (
@@ -120,6 +121,7 @@ def publish_instagram_post(
     default_caption: str,
     last_caption_generated: str,
     instagram_page_id: str,
+    meta_api_key: str,
     use_ai_caption: bool,
 ):
     """
@@ -168,7 +170,7 @@ def publish_instagram_post(
             "media_type": "CAROUSEL",
             "children": ",".join(media_fbids),
             "caption": caption,
-            "access_token": get_fresh_token(),
+            "access_token": meta_api_key,
         }
 
         carousel_response = requests.post(carousel_url, data=payload)
@@ -179,7 +181,7 @@ def publish_instagram_post(
             publish_url = f"{META_GRAPH_BASE_ENDPOINT}{instagram_page_id}/media_publish"
             publish_payload = {
                 "creation_id": creation_id,
-                "access_token": get_fresh_token(),
+                "access_token": meta_api_key,
             }
             publish_response = requests.post(publish_url, data=publish_payload)
             if publish_response.status_code == 200:
@@ -204,6 +206,7 @@ def publish_instagram_reel(
     default_caption: str,
     last_caption_generated: str,
     instagram_page_id: str,
+    meta_api_key: str,
     use_ai_caption: bool,
     last_reel_posted_sound_track: str,
 ):
@@ -220,7 +223,9 @@ def publish_instagram_reel(
             duration_per_image=3,
         )
 
-        media_dir = "generated_videos" # os.path.join(settings.MEDIA_ROOT, "generated_videos")
+        media_dir = (
+            "generated_videos"  # os.path.join(settings.MEDIA_ROOT, "generated_videos")
+        )
         os.makedirs(media_dir, exist_ok=True)
         target_path = os.path.join(media_dir, "property_video.mp4")
         shutil.move("property_video.mp4", target_path)
@@ -240,7 +245,7 @@ def publish_instagram_reel(
             "video_url": CREATED_VIDEO_PUBLIC_URL,
             "caption": caption,
             "share_to_feed": False,
-            "access_token": get_fresh_token(),
+            "access_token": meta_api_key,
         }
         media_response = requests.post(media_url, data=media_payload)
         logger.info("Media upload response: " + media_response.text)
@@ -253,7 +258,7 @@ def publish_instagram_reel(
             publish_url = f"{META_GRAPH_BASE_ENDPOINT}{instagram_page_id}/media_publish"
             publish_payload = {
                 "creation_id": creation_id,
-                "access_token": get_fresh_token(),
+                "access_token": meta_api_key,
             }
             publish_response = requests.post(publish_url, data=publish_payload)
             logger.info("Publish response: " + publish_response.text)

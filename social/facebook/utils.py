@@ -3,6 +3,7 @@ from social.facebook.constants import FACEBOOK_PAGE_ID
 import logging
 import shutil
 import os
+
 # from django.conf import settings
 import requests
 import urllib.parse
@@ -41,7 +42,8 @@ def publish_facebook_post(
     hashtags: str,
     default_caption: str,
     last_caption_generated: str,
-    page_id: str,
+    facebook_page_id: str,
+    meta_api_key: str,
     use_ai_caption: bool,
     internet_images: bool,
 ):
@@ -80,11 +82,11 @@ def publish_facebook_post(
             logger.error(f"Error preparing image URL: {e}")
             continue
 
-        upload_url = f"https://graph.facebook.com/v19.0/{page_id}/photos"
+        upload_url = f"https://graph.facebook.com/v19.0/{facebook_page_id}/photos"
         payload = {
             "url": image_url,
             "published": "false",
-            "access_token":settings.meta_access_token,
+            "access_token": meta_api_key,
         }
         response = requests.post(upload_url, data=payload)
 
@@ -98,10 +100,10 @@ def publish_facebook_post(
 
     # Step 3: Post content with attached media
     if media_fbids:
-        post_url = f"https://graph.facebook.com/v19.0/{page_id}/feed"
+        post_url = f"https://graph.facebook.com/v19.0/{facebook_page_id}/feed"
         payload = {
             "message": caption,
-            "access_token": settings.meta_access_token,
+            "access_token": meta_api_key,
         }
         for i, media_id in enumerate(media_fbids):
             payload[f"attached_media[{i}]"] = f'{{"media_fbid":"{media_id}"}}'
@@ -131,9 +133,11 @@ def publish_facebook_reel(
     default_caption: str,
     last_caption_generated: str,
     facebook_page_id: str,
+    meta_api_key: str,
     use_ai_caption: bool,
     last_reel_posted_sound_track: str,
     video_text: str = None,
+    internet_images: bool = False,
 ):
     try:
         if not image_urls:
@@ -148,9 +152,12 @@ def publish_facebook_reel(
             audio_path=audio_path,
             video_text=video_text,
             duration_per_image=3,
+            internet_images=internet_images,
         )
 
-        media_dir = "generated_videos" #os.path.join(settings.MEDIA_ROOT, "generated_videos")
+        media_dir = (
+            "generated_videos"  # os.path.join(settings.MEDIA_ROOT, "generated_videos")
+        )
         os.makedirs(media_dir, exist_ok=True)
         target_path = os.path.join(media_dir, "property_video.mp4")
         shutil.move("property_video.mp4", target_path)
@@ -167,11 +174,12 @@ def publish_facebook_reel(
 
         # Step: Upload video to Facebook Page
         upload_url = f"https://graph.facebook.com/v19.0/{facebook_page_id}/videos"
+
         payload = {
             "file_url": video_url,
             "description": caption,
             "published": "true",
-            "access_token": settings.meta_access_token,
+            "access_token": meta_api_key,
         }
 
         response = requests.post(upload_url, data=payload)
