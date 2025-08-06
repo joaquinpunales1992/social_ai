@@ -67,7 +67,6 @@ def publish_facebook_post(
 
     # Step 2: Upload images to Facebook
     media_fbids = []
-    import pdb;pdb.set_trace()
     for raw_url in image_urls:
         try:
             if internet_images:
