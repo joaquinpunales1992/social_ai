@@ -51,6 +51,8 @@ def generate_caption(
     use_ai_caption: bool,
 ) -> str:
     ai_caption = ""
+    hashtags = " ".join(hashtags)
+    
     if use_ai_caption:
         try:
             prompt = (
