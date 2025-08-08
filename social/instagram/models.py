@@ -11,7 +11,6 @@ class InstagramPostRequest(BaseModel):
     instagram_page_id: str
     meta_api_key: str
     use_ai_caption: bool = True
-    internet_images: bool = False
 
 
 class InstagramReelRequest(BaseModel):
