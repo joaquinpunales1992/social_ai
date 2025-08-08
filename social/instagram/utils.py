@@ -209,6 +209,7 @@ def publish_instagram_reel(
     meta_api_key: str,
     use_ai_caption: bool,
     last_reel_posted_sound_track: str,
+    video_text: str,
 ):
     try:
         if not image_urls:
