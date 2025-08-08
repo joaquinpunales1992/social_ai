@@ -10,6 +10,7 @@ from social.utils import (
     notify_social_token_expired,
     get_random_mp3_full_path,
     create_video,
+    upload_to_tflink
 )
 
 # from social.models import SocialComment, SocialPost
@@ -18,7 +19,6 @@ from social.instagram.constants import (
     INSTAGRAM_USER_ID,
     DEFAULT_COMMENT,
     META_GRAPH_BASE_ENDPOINT,
-    CREATED_VIDEO_PUBLIC_URL,
 )
 from social import utils as social_utils
 
@@ -224,12 +224,8 @@ def publish_instagram_reel(
             duration_per_image=3,
         )
 
-        media_dir = (
-            "generated_videos"  # os.path.join(settings.MEDIA_ROOT, "generated_videos")
-        )
-        os.makedirs(media_dir, exist_ok=True)
-        target_path = os.path.join(media_dir, "property_video.mp4")
-        shutil.move("property_video.mp4", target_path)
+        video_url = upload_to_tflink("property_video.mp4")
+        logger.info(f"Video uploaded to file.io: {video_url}")
 
         ai_caption, caption = generate_caption(
             content_data=content_data,
@@ -243,7 +239,7 @@ def publish_instagram_reel(
         media_url = f"{META_GRAPH_BASE_ENDPOINT}{instagram_page_id}/media"
         media_payload = {
             "media_type": "REELS",
-            "video_url": CREATED_VIDEO_PUBLIC_URL,
+            "video_url": video_url,
             "caption": caption,
             "share_to_feed": False,
             "access_token": meta_api_key,

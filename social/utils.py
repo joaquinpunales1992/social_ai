@@ -266,3 +266,12 @@ async def notify_social_token_expired(message: str = None):
         await fm.send_message(message)
     except Exception as e:
         print(f"Error sending email: {e}")
+
+
+def upload_to_tflink(file_path: str) -> str:
+    with open(file_path, 'rb') as f:
+        files = {'file': f}
+        res = requests.post("https://tmpfile.link/api/upload", files=files)
+        res.raise_for_status()
+        data = res.json()
+        return data["downloadLink"]

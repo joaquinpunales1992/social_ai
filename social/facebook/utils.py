@@ -12,6 +12,7 @@ from social.utils import (
     get_random_mp3_full_path,
     notify_social_token_expired,
     create_video,
+    upload_to_tflink
 )
 
 from social.constants import *
@@ -34,15 +35,6 @@ def prepare_image_url_for_facebook(image_url: str) -> str:
         image_url = decoded_final.replace("https:/", "https://", 1)
 
     return image_url
-
-
-def upload_to_tflink(file_path: str) -> str:
-    with open(file_path, 'rb') as f:
-        files = {'file': f}
-        res = requests.post("https://tmpfile.link/api/upload", files=files)
-        res.raise_for_status()
-        data = res.json()
-        return data["downloadLink"]
 
 
 def publish_facebook_post(
