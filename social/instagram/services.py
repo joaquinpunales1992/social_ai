@@ -21,6 +21,7 @@ async def do_publish_instagram_post(data: InstagramPostRequest):
         data_dict.get("instagram_page_id"),
         data_dict.get("meta_api_key"),
         data_dict.get("use_ai_caption"),
+        data_dict.get("internet_images"),
     )
     return {"status": response, "data": data.model_dump()}
 
