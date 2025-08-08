@@ -36,6 +36,16 @@ def prepare_image_url_for_facebook(image_url: str) -> str:
     return image_url
 
 
+def upload_to_fileio(file_path: str) -> str:
+    with open(file_path, 'rb') as f:
+        response = requests.post('https://file.io', files={'file': f})
+        if response.status_code == 200:
+            data = response.json()
+            return data.get("link")
+        else:
+            raise Exception(f"Failed to upload to file.io: {response.text}")
+
+
 def publish_facebook_post(
     content_data: dict,
     image_urls: list,
@@ -155,14 +165,8 @@ def publish_facebook_reel(
             internet_images=internet_images,
         )
 
-        media_dir = (
-            "generated_videos"  # os.path.join(settings.MEDIA_ROOT, "generated_videos")
-        )
-        os.makedirs(media_dir, exist_ok=True)
-        target_path = os.path.join(media_dir, "property_video.mp4")
-        shutil.move("property_video.mp4", target_path)
-
-        video_url = "https://social-ai-s1kk.onrender.com/generated_videos/property_video.mp4"
+        video_url = upload_to_fileio("property_video.mp4")
+        logger.info(f"Video uploaded to file.io: {video_url}")
 
         ai_caption, caption = generate_caption(
             content_data=content_data,
