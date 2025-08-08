@@ -19,9 +19,9 @@ class InstagramReelRequest(BaseModel):
     image_urls: List[str]
     hashtags: List[str]
     default_caption: Optional[str] = None
-    facebook_page_id: str
+    last_caption_generated: str
+    instagram_page_id: str
     meta_api_key: str
     use_ai_caption: bool = True
     last_reel_posted_sound_track: str
-    last_caption_generated: str
     video_text: str

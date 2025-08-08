@@ -37,9 +37,12 @@ async def do_publish_instagram_reel(data: InstagramReelRequest):
         data_dict.get("hashtags"),
         data_dict.get("default_caption"),
         data_dict.get("last_caption_generated"),
+        data_dict.get("instagram_page_id"),
         data_dict.get("meta_api_key"),
         data_dict.get("use_ai_caption"),
         data_dict.get("last_reel_posted_sound_track"),
+        data_dict.get("video_text"),
+
     )
     return {"status": response, "data": data.model_dump()}
 
