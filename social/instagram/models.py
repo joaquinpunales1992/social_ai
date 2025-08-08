@@ -24,3 +24,4 @@ class InstagramReelRequest(BaseModel):
     use_ai_caption: bool = True
     last_reel_posted_sound_track: str
     video_text: str
+    internet_images: bool

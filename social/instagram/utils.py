@@ -210,6 +210,7 @@ def publish_instagram_reel(
     use_ai_caption: bool,
     last_reel_posted_sound_track: str,
     video_text: str,
+    internet_images: str
 ):
     try:
         if not image_urls:
@@ -221,7 +222,9 @@ def publish_instagram_reel(
             images_urls=image_urls,
             output_path="property_video.mp4",
             audio_path=audio_path,
+            video_text=video_text,
             duration_per_image=3,
+            internet_images=internet_images
         )
 
         video_url = upload_to_tflink("property_video.mp4")
