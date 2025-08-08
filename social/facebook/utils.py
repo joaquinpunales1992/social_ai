@@ -162,7 +162,7 @@ def publish_facebook_reel(
         target_path = os.path.join(media_dir, "property_video.mp4")
         shutil.move("property_video.mp4", target_path)
 
-        video_url = "https://social-ai-s1kk.onrender.com/media/generated_videos/property_video.mp4"
+        video_url = "https://social-ai-s1kk.onrender.com/generated_videos/property_video.mp4"
 
         ai_caption, caption = generate_caption(
             content_data=content_data,
