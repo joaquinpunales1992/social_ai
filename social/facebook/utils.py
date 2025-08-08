@@ -36,14 +36,13 @@ def prepare_image_url_for_facebook(image_url: str) -> str:
     return image_url
 
 
-def upload_to_fileio(file_path: str) -> str:
+def upload_to_tflink(file_path: str) -> str:
     with open(file_path, 'rb') as f:
-        response = requests.post('https://file.io', files={'file': f})
-        if response.status_code == 200:
-            data = response.json()
-            return data.get("link")
-        else:
-            raise Exception(f"Failed to upload to file.io: {response.text}")
+        files = {'file': f}
+        res = requests.post("https://tmpfile.link/api/upload", files=files)
+        res.raise_for_status()
+        data = res.json()
+        return data["downloadLink"]
 
 
 def publish_facebook_post(
@@ -164,8 +163,7 @@ def publish_facebook_reel(
             duration_per_image=3,
             internet_images=internet_images,
         )
-
-        video_url = upload_to_fileio("property_video.mp4")
+        video_url = upload_to_tflink("property_video.mp4")
         logger.info(f"Video uploaded to file.io: {video_url}")
 
         ai_caption, caption = generate_caption(
@@ -191,9 +189,6 @@ def publish_facebook_reel(
 
         if response.status_code == 200 and "id" in response.json():
             logger.info("Successfully posted to Facebook Reels!")
-            import pdb
-
-            pdb.set_trace()
         # Log the post
         # SocialPost.objects.create(
         #     ai_caption=ai_caption,
