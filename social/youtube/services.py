@@ -1,5 +1,5 @@
 from social.youtube.models import YoutubeShortRequest
-from social.youtube.utils import publish_youtube_short, run_publish_youtube_short
+from social.youtube.utils import publish_youtube_short
 from social.config.settings import settings
 
 
