@@ -132,8 +132,7 @@ def publish_youtube_short(
     #     hashtags= "#japan",
     #     default_caption= "Look at this House!",
     #     last_caption_generated= "",
-    #     client_secret={"installed":{"client_id":"919832170496-8no14nmqqqeum3aemmck0j9l4fjep210.apps.googleusercontent.com","project_id":"brave-sunspot-469421-c3","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"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","redirect_uris":["http://localhost"]}},
-    #     use_ai_caption= True,
+    #     client_secret=
     #     last_reel_posted_sound_track= "",
     #     video_text= "Buy now!",
     #     internet_images= True,
